@@ -21,7 +21,7 @@ where
 * `datetime` is a character string representing the Earth time that you want to convert to Martian time. The character string should be in the format `'%Y-%m-%d %H:%M:%S'`.
 * `tzone` is a character string representing the timezone of the Earth time that you want to convert to Martian time. 
 
-The output of `Mars24()` is a dataframe that corresponds to the examples documented on the ["Algorithm and Worked Examples"](https://www.giss.nasa.gov/tools/mars24/help/algorithm.html) page on the NASA Goddard Institute for Space Studies website. 
+The output of `Mars24()` is a dataframe that corresponds to the examples documented on the ["Algorithm and Worked Examples"](https://www.giss.nasa.gov/tools/mars24/help/algorithm.html) page of the NASA Goddard Institute for Space Studies website. 
 
 For example:
 
