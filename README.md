@@ -1,4 +1,4 @@
-# marstime
+# marstime - Timekeeping on Mars with R
 
 *_Project under active development._*
 
@@ -14,9 +14,8 @@ For more information, see:
 
 The bulk of the calculations is performed by the function `Mars24()`:
 
-```
-Mars24(datetime, tzone)
-```
+`Mars24(datetime, tzone)`
+
 where 
 * `datetime` is a character string representing the Earth time that you want to convert to Martian time. The character string should be in the format `'%Y-%m-%d %H:%M:%S'`.
 * `tzone` is a character string representing the timezone of the Earth time that you want to convert to Martian time. 
