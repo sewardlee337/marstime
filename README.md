@@ -7,10 +7,10 @@
 This is an implementation of the NASA [Mars24 Sunclock algorithm](https://www.giss.nasa.gov/tools/mars24/) developed by Dr. Michael D Allison, using the R programming language. 
 
 For more information, see:
-* Allison, M. 1997. Accurate analytic representations of solar time and season on Mars with applications to the Pathfinder/Surveyor missions. Geophys. Res. Lett. 24, 1967-1970.
+* [Allison, M. 1997. Accurate analytic representations of solar time and season on Mars with applications to the Pathfinder/Surveyor missions. Geophys. Res. Lett. 24, 1967-1970.](http://onlinelibrary.wiley.com/doi/10.1029/97GL01950/abstract)
 
 
-### Running the algorithm
+### Mars24()
 
 The bulk of the calculations is performed by the function `Mars24()`:
 
@@ -26,6 +26,8 @@ The output of `Mars24()` is a dataframe that corresponds to the examples documen
 For example:
 
 ```r
+## Example: January 6, 2000 (UTC)
+
 Mars24('2000-01-06 00:00:00', 'UTC') %>%
      print()
 ```
