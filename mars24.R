@@ -11,25 +11,23 @@ source(paste0(script.dir, '/trig_degrees.R'))
 datetime = '2000-01-06 00:00:00'
 tzone = 'UTC'
 
-## Mars24 algorithm as a function
+millis <- datetime  %>%
+  ymd_hms(tz = tzone) %>%
+  as.integer() * 1000
 
-Mars24 <- function(datetime, tzone) {
+## Mars24 algorithm
 
-     ## A-1: Start Earth time in milliseconds
-     
-     millis <- datetime %>%
-          ymd_hms(tz = tzone) %>%
-          as.integer() * 1000
+Mars24 <- function(millis) {
      
      ## A-2: Convert millis to Julian Date (UT)
      
      jdUT <- 2440587.5 + (millis / (8.64 * 1e7)) 
      
      ## A-3: Determine time offset from J2000 epoch (UT)
-     
+    
      epoch.J2000 <- ymd_hms('2000-01-01 00:00:00')
      
-     T <- ifelse(ymd_hms(datetime) < epoch.J2000, (jdUT - 2451545.0) / 36525, 0)
+     T <- ifelse(as_datetime(millis/1000) < epoch.J2000, (jdUT - 2451545.0) / 36525, 0)
      
      ## A-4: Determine UTC to TT conversion
      
@@ -77,7 +75,6 @@ Mars24 <- function(datetime, tzone) {
      EOT <- 2.861 * sin_deg(2 * Ls) - 0.071 * sin_deg(4 * Ls) + 
           0.002 * sin_deg(6 * Ls) - v.minus.M
      
-     
      ## C-2: Determine Coordinated Mars Time (ie Airy Mean Time)
      
      MTC <- (24 * (((jdTT - 2451549.5) / 1.0274912517) + 44796.0 - 0.0009626)) %% 24
@@ -87,8 +84,8 @@ Mars24 <- function(datetime, tzone) {
      equation <- c('A-1', 'A-2', 'A-3', 'A-4', 'A-5', 'A-6', 'B-1', 'B-2', 
                    'B-3', 'B-4', 'B-5', 'C-1', 'C-2')
      
-     description <- c('Get a starting Earth time', 
-                      'Convert millis to Julian Date(UT)',
+     description <- c('Get a starting Earth time in millis', 
+                      'Convert millis to Julian Date (UT)',
                       'Determine time offset from J2000 epoch (UT)',
                       'Determine UTC to TT conversion',
                       'Determine Julian Date (TT)',
@@ -102,8 +99,20 @@ Mars24 <- function(datetime, tzone) {
      value <- c(millis, jdUT, T, tt.minus.ut, jdTT, deltaTJ2000, M, alphaFMS,
                 PBS, v.minus.M, Ls, EOT, MTC)
      
-     output <- data.frame(equation = equation, description = description, 
-                           value = value) %>%
-          return()
+         output <- data.frame(equation = equation, description = description, 
+                               value = value) 
+         return(output)
+
 }
 
+## Convert Earth to Mars
+
+earth2mars_convert <- function(millis, verbose=FALSE) {
+  calculations <- Mars24(millis)
+  
+  if(verbose==TRUE) {
+    print(calculations)
+  }
+  
+  return(calculations$value[13])
+}
